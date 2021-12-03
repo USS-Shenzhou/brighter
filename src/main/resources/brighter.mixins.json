@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cn.ussshenzhou.brighter.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "brighter.refmap.json",
+  "mixins": [
+    "MixinBlockLightEngine",
+    "SectionLightStorageAccessor"
+  ],
+  "client": [
+  ]
+}
