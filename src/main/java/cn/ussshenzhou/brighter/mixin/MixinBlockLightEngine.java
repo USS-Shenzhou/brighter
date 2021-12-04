@@ -27,10 +27,10 @@ public abstract class MixinBlockLightEngine extends LayerLightEngine<FakeBlockLi
         super(p_75640_, p_75641_, p_75642_);
     }
 
-    @Shadow(remap = false)
+    @Shadow
     protected abstract int getLightEmission(long p_75509_);
 
-    @Inject(method = "computeLevelFromNeighbor", at = @At("HEAD"), remap = false, cancellable = true)
+    @Inject(method = "computeLevelFromNeighbor", at = @At("HEAD"), cancellable = true)
     private void brighterGetEdgeLevelHead(long startPos, long endPos, int startLevel, CallbackInfoReturnable<Integer> cir) {
         if (endPos == Long.MAX_VALUE) {
             cir.setReturnValue(15);

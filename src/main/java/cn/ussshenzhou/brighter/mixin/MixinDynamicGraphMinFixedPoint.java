@@ -17,26 +17,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(DynamicGraphMinFixedPoint.class)
 public abstract class MixinDynamicGraphMinFixedPoint {
-    @Shadow(remap = false)
+    @Shadow
     protected abstract boolean isSource(long p_75551_);
 
-    @Shadow(remap = false)
+    @Shadow
     protected abstract int getComputedLevel(long p_75566_, long p_75567_, int p_75568_);
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private int levelCount;
 
-    @Shadow(remap = false)
+    @Shadow
     protected abstract int getKey(int p_75549_, int p_75550_);
 
-    @Shadow(remap = false)
+    @Shadow
     protected abstract void dequeue(long p_75559_, int p_75560_, int p_75561_, boolean p_75562_);
 
-    @Shadow(remap = false)
+    @Shadow
     protected abstract void enqueue(long p_75555_, int p_75556_, int p_75557_);
 
-    @Inject(method = "checkEdge(JJIIIZ)V", at = @At("HEAD"), remap = false,cancellable = true)
+    @Inject(method = "checkEdge(JJIIIZ)V", at = @At("HEAD"), cancellable = true)
     private void brighterCheckEdge(long fromPos, long toPos, int newLevel, int previousLevel, int propagationLevel, boolean isDecreasing, CallbackInfo ci) {
         if (!this.isSource(toPos)) {
             newLevel = Mth.clamp(newLevel, 0, this.levelCount - 1);
