@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "brighter.refmap.json",
   "mixins": [
-    "MixinBlockLightEngine",
-    "SectionLightStorageAccessor"
+
   ],
   "client": [
   ]
