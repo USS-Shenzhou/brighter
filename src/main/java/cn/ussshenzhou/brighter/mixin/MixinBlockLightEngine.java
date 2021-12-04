@@ -22,21 +22,16 @@ import org.apache.commons.lang3.mutable.MutableInt;
  * @author Tony Yu
  */
 @Mixin(BlockLightEngine.class)
-public abstract class MixinBlockLightEngine extends LayerLightEngine<FakeBlockLightSectionStorage.FakeBlockDataLayerStorageMap, FakeBlockLightSectionStorage>{
+public abstract class MixinBlockLightEngine extends LayerLightEngine<FakeBlockLightSectionStorage.FakeBlockDataLayerStorageMap, FakeBlockLightSectionStorage> {
     public MixinBlockLightEngine(LightChunkGetter p_75640_, LightLayer p_75641_, FakeBlockLightSectionStorage p_75642_) {
         super(p_75640_, p_75641_, p_75642_);
     }
+
     @Shadow(remap = false)
     protected abstract int getLightEmission(long p_75509_);
 
     @Inject(method = "computeLevelFromNeighbor", at = @At("HEAD"), remap = false, cancellable = true)
     private void brighterGetEdgeLevelHead(long startPos, long endPos, int startLevel, CallbackInfoReturnable<Integer> cir) {
-        /*
-                    try {
-                        prevLevel = 15 - ((SectionLightStorageAccessor) storage).callGetLight(prevPos);
-                    } catch (NullPointerException ignored) {
-                    }
-        }*/
         if (endPos == Long.MAX_VALUE) {
             cir.setReturnValue(15);
         } else if (startPos == Long.MAX_VALUE) {
@@ -56,22 +51,27 @@ public abstract class MixinBlockLightEngine extends LayerLightEngine<FakeBlockLi
                 if (mutableint.getValue() >= 15) {
                     cir.setReturnValue(15);
                 } else {
-                    BlockState blockstate1 = this.getStateAndOpacity(startPos, (MutableInt)null);
+                    BlockState blockstate1 = this.getStateAndOpacity(startPos, (MutableInt) null);
                     VoxelShape voxelshape = this.getShape(blockstate1, startPos, direction);
                     VoxelShape voxelshape1 = this.getShape(blockstate, endPos, direction.getOpposite());
                     //LogManager.getLogger().warn("!");
                     int l = 1;
                     long prevPos = startPos + (startPos - endPos);
-                    long prevLevel = 15;
                     //prevLevel = this.getLightEmission(prevPos);
-                    prevLevel = this.getLevel(prevPos);
-                    if (prevLevel == startLevel - 1 ) {
-                        l = 0;
+                    try {
+                        int prevLevel = this.getLevel(prevPos);
+                        if (prevLevel == startLevel - 1&& startLevel != 14) {
+                            l = 0;
+                        }
+                        //if (prevLevel != startLevel) {
+                        //    l = 0;
+                        //}
+                    } catch (Exception ignored) {
                     }
                     l += mutableint.getValue();
 
                     cir.setReturnValue(Shapes.faceShapeOccludes(voxelshape, voxelshape1) ? 15
-                            : startLevel + l
+                                    : startLevel + l
                             //Math.max(1, mutableint.getValue())
                     );
                 }
