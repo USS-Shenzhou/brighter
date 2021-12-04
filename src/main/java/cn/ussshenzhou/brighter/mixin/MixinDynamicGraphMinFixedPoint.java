@@ -37,29 +37,7 @@ public abstract class MixinDynamicGraphMinFixedPoint {
     protected abstract void enqueue(long p_75555_, int p_75556_, int p_75557_);
 
     @Inject(method = "checkEdge(JJIIIZ)V", at = @At("HEAD"), remap = false,cancellable = true)
-    private void BrighterCheckEdge(long fromPos, long toPos, int newLevel, int previousLevel, int propagationLevel, boolean isDecreasing, CallbackInfo ci) {
-        /*if (Minecraft.getInstance().isSameThread()) {
-            LogManager.getLogger().info(
-                    BlockPos.getX(fromPos)
-                            + " "
-                            + BlockPos.getY(fromPos)
-                            + " "
-                            + BlockPos.getZ(fromPos)
-                            + "  |  "
-                            + BlockPos.getX(toPos)
-                            + " "
-                            + BlockPos.getY(toPos)
-                            + " "
-                            + BlockPos.getZ(toPos)
-                            + "   "
-                            + (15 - newLevel)
-                            + "   "
-                            + (15 - previousLevel)
-                            + "   "
-                            + (15 - propagationLevel)
-                            + "   "
-                            + isDecreasing);
-        }*/
+    private void brighterCheckEdge(long fromPos, long toPos, int newLevel, int previousLevel, int propagationLevel, boolean isDecreasing, CallbackInfo ci) {
         if (!this.isSource(toPos)) {
             newLevel = Mth.clamp(newLevel, 0, this.levelCount - 1);
             previousLevel = Mth.clamp(previousLevel, 0, this.levelCount - 1);

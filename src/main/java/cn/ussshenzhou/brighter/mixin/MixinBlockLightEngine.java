@@ -54,18 +54,13 @@ public abstract class MixinBlockLightEngine extends LayerLightEngine<FakeBlockLi
                     BlockState blockstate1 = this.getStateAndOpacity(startPos, (MutableInt) null);
                     VoxelShape voxelshape = this.getShape(blockstate1, startPos, direction);
                     VoxelShape voxelshape1 = this.getShape(blockstate, endPos, direction.getOpposite());
-                    //LogManager.getLogger().warn("!");
                     int l = 1;
                     long prevPos = startPos + (startPos - endPos);
-                    //prevLevel = this.getLightEmission(prevPos);
                     try {
                         int prevLevel = this.getLevel(prevPos);
                         if (prevLevel == startLevel - 1&& startLevel != 14) {
                             l = 0;
                         }
-                        //if (prevLevel != startLevel) {
-                        //    l = 0;
-                        //}
                     } catch (Exception ignored) {
                     }
                     l += mutableint.getValue();
@@ -77,27 +72,5 @@ public abstract class MixinBlockLightEngine extends LayerLightEngine<FakeBlockLi
                 }
             }
         }
-    }
-
-    @Inject(method = "getComputedLevel", at = @At("RETURN"), remap = false, cancellable = true)
-    private void brighterGetComputedLevel(long pos, long excludedSourcePos, int level, CallbackInfoReturnable<Integer> cir) {
-        /*if (Minecraft.getInstance().isSameThread()){
-            LogManager.getLogger().info(
-                    BlockPos.getX(pos)
-                            + " "
-                            + BlockPos.getY(pos)
-                            + " "
-                            + BlockPos.getZ(pos)
-                            + "  |  "
-                            + BlockPos.getX(excludedSourcePos)
-                            + " "
-                            + BlockPos.getY(excludedSourcePos)
-                            + " "
-                            + BlockPos.getZ(excludedSourcePos)
-                            + "   "
-                            + (15-level)
-                            + "   "
-                            + (15-cir.getReturnValue()));
-        }*/
     }
 }
