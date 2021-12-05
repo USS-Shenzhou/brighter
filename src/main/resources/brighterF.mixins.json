@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cn.usssehznhou.brighterf.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "MixinChunkBlockLightProvider",
+    "MixinLevelPropagator"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
