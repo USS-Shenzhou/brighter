@@ -1,10 +1,7 @@
 package cn.ussshenzhou.brighter.mixin;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.lighting.DynamicGraphMinFixedPoint;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.lighting.LevelBasedGraph;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * @author Tony Yu
  */
-@Mixin(DynamicGraphMinFixedPoint.class)
+@Mixin(LevelBasedGraph.class)
 public abstract class MixinDynamicGraphMinFixedPoint {
     @Shadow
     protected abstract boolean isSource(long p_75551_);
@@ -39,8 +36,8 @@ public abstract class MixinDynamicGraphMinFixedPoint {
     @Inject(method = "checkEdge(JJIIIZ)V", at = @At("HEAD"), cancellable = true)
     private void brighterCheckEdge(long fromPos, long toPos, int newLevel, int previousLevel, int propagationLevel, boolean isDecreasing, CallbackInfo ci) {
         if (!this.isSource(toPos)) {
-            newLevel = Mth.clamp(newLevel, 0, this.levelCount - 1);
-            previousLevel = Mth.clamp(previousLevel, 0, this.levelCount - 1);
+            newLevel = MathHelper.clamp(newLevel, 0, this.levelCount - 1);
+            previousLevel = MathHelper.clamp(previousLevel, 0, this.levelCount - 1);
             boolean flag;
             if (propagationLevel == 255) {
                 flag = true;
@@ -53,7 +50,7 @@ public abstract class MixinDynamicGraphMinFixedPoint {
             //if (isDecreasing) {
             //    i = Math.min(propagationLevel, newLevel);
             //} else {
-              i = Mth.clamp(this.getComputedLevel(toPos, fromPos, newLevel), 0, this.levelCount - 1);
+              i = MathHelper.clamp(this.getComputedLevel(toPos, fromPos, newLevel), 0, this.levelCount - 1);
             //}
 
             int j = this.getKey(previousLevel, propagationLevel);

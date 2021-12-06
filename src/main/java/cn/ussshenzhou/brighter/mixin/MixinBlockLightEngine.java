@@ -1,15 +1,15 @@
 package cn.ussshenzhou.brighter.mixin;
 
-import cn.ussshenzhou.brighter.util.FakeBlockLightSectionStorage;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LightChunkGetter;
-import net.minecraft.world.level.lighting.BlockLightEngine;
-import net.minecraft.world.level.lighting.LayerLightEngine;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import cn.ussshenzhou.brighter.util.FakeBlockLightStorage;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.LightType;
+import net.minecraft.world.chunk.IChunkLightProvider;
+import net.minecraft.world.lighting.BlockLightEngine;
+import net.minecraft.world.lighting.LightEngine;
 import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,9 +22,9 @@ import org.apache.commons.lang3.mutable.MutableInt;
  * @author Tony Yu
  */
 @Mixin(BlockLightEngine.class)
-public abstract class MixinBlockLightEngine extends LayerLightEngine<FakeBlockLightSectionStorage.FakeBlockDataLayerStorageMap, FakeBlockLightSectionStorage> {
-    public MixinBlockLightEngine(LightChunkGetter p_75640_, LightLayer p_75641_, FakeBlockLightSectionStorage p_75642_) {
-        super(p_75640_, p_75641_, p_75642_);
+public abstract class MixinBlockLightEngine extends LightEngine<FakeBlockLightStorage.FakeBlockDataLayerStorageMap, FakeBlockLightStorage> {
+    public MixinBlockLightEngine(IChunkLightProvider p_i51296_1_, LightType p_i51296_2_, FakeBlockLightStorage p_i51296_3_) {
+        super(p_i51296_1_, p_i51296_2_, p_i51296_3_);
     }
 
     @Shadow
@@ -64,8 +64,7 @@ public abstract class MixinBlockLightEngine extends LayerLightEngine<FakeBlockLi
                     } catch (Exception ignored) {
                     }
                     l += mutableint.getValue();
-
-                    cir.setReturnValue(Shapes.faceShapeOccludes(voxelshape, voxelshape1) ? 15
+                    cir.setReturnValue(VoxelShapes.faceShapeOccludes(voxelshape, voxelshape1) ? 15
                                     : startLevel + l
                             //Math.max(1, mutableint.getValue())
                     );
