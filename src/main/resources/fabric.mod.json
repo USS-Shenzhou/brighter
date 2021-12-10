@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "brighter",
-  "version": "0.1.18-beta",
+  "version": "0.1.18.1-beta",
   "name": "BrighterF",
   "description": "Double your block light.\n\nSource code: https://github.com/USS-Shenzhou/brighter\n\nBrighterF is a rough copy of its forge version.",
   "authors": ["USS_Shenzhou"],
