@@ -12,5 +12,5 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "mixins.brighterf.refmap.json"
+  "refmap": "brighterF-refmap.json"
 }
