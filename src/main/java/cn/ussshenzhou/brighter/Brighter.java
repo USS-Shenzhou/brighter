@@ -40,7 +40,7 @@ public class Brighter {
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
 
         if (ModList.get().isLoaded("starlight")) {
-            LogManager.getLogger().error("BrighterF is noy compatible with Starlight! BrighterF will not work.");
+            LogManager.getLogger().error("Brighter is noy compatible with Starlight! Brighter will not work.");
         }
     }
 
