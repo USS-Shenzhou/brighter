@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "brighter",
-  "version": "0.1.18.1-beta",
+  "version": "0.1.182.1-beta",
   "name": "BrighterF",
   "description": "Double your block light.\n\nSource code: https://github.com/USS-Shenzhou/brighter\n\nBrighterF is a rough copy of its forge version.",
   "authors": ["USS_Shenzhou"],
   "contact": {},
-  "license": "CC by-nc 4.0",
+  "license": "CC BY-NC 4.0",
   "icon": "brighter.png",
   "environment": "*",
   "entrypoints": {
@@ -21,8 +21,8 @@
     "brighterF.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.8",
+    "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": "1.18"
+    "minecraft": "1.18.2"
   }
 }
