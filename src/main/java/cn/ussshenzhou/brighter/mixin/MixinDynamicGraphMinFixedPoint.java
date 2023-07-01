@@ -1,9 +1,11 @@
 package cn.ussshenzhou.brighter.mixin;
 
+import it.unimi.dsi.fastutil.longs.Long2ByteMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.lighting.DynamicGraphMinFixedPoint;
+import net.minecraft.world.level.lighting.LeveledPriorityQueue;
 import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,47 +27,49 @@ public abstract class MixinDynamicGraphMinFixedPoint {
 
     @Shadow
     @Final
-    private int levelCount;
+    protected int levelCount;
 
     @Shadow
-    protected abstract int getKey(int p_75549_, int p_75550_);
+    protected abstract int calculatePriority(int p_278256_, int p_278328_);
 
+    @Final
     @Shadow
-    protected abstract void dequeue(long p_75559_, int p_75560_, int p_75561_, boolean p_75562_);
+    private LeveledPriorityQueue priorityQueue;
 
+    @Final
     @Shadow
-    protected abstract void enqueue(long p_75555_, int p_75556_, int p_75557_);
+    private Long2ByteMap computedLevels;
 
+    @SuppressWarnings("DataFlowIssue")
     @Inject(method = "checkEdge(JJIIIZ)V", at = @At("HEAD"), cancellable = true)
     private void brighterCheckEdge(long fromPos, long toPos, int newLevel, int previousLevel, int propagationLevel, boolean isDecreasing, CallbackInfo ci) {
         if (!this.isSource(toPos)) {
             newLevel = Mth.clamp(newLevel, 0, this.levelCount - 1);
             previousLevel = Mth.clamp(previousLevel, 0, this.levelCount - 1);
-            boolean flag;
-            if (propagationLevel == 255) {
-                flag = true;
+            boolean flag = propagationLevel == 255;
+            if (flag) {
                 propagationLevel = previousLevel;
-            } else {
-                flag = false;
             }
 
             int i;
-            //if (isDecreasing) {
-            //    i = Math.min(propagationLevel, newLevel);
-            //} else {
-              i = Mth.clamp(this.getComputedLevel(toPos, fromPos, newLevel), 0, this.levelCount - 1);
-            //}
+            // if (isDecreasing) {
+            //     i = Math.min(propagationLevel, newLevel);
+            // } else {
+                i = Mth.clamp(this.getComputedLevel(toPos, fromPos, newLevel), 0, this.levelCount - 1);
+            // }
 
-            int j = this.getKey(previousLevel, propagationLevel);
+            int j = this.calculatePriority(previousLevel, propagationLevel);
             if (previousLevel != i) {
-                int k = this.getKey(previousLevel, i);
+                int k = this.calculatePriority(previousLevel, i);
                 if (j != k && !flag) {
-                    this.dequeue(toPos, j, k, false);
+                    this.priorityQueue.dequeue(toPos, j, k);
                 }
 
-                this.enqueue(toPos, i, k);
+                this.priorityQueue.enqueue(toPos, k);
+                this.computedLevels.put(toPos, (byte) i);
             } else if (!flag) {
-                this.dequeue(toPos, j, this.levelCount, true);
+                this.priorityQueue.dequeue(toPos, j, this.levelCount);
+                this.computedLevels.remove(toPos);
             }
 
         }
