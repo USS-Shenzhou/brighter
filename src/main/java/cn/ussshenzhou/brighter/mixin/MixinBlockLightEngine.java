@@ -43,12 +43,13 @@ public abstract class MixinBlockLightEngine extends LightEngine<BlockLightSectio
                     if (nextLevel > oldNextPosLevel) {
                         this.mutablePos.set(nextPos);
                         BlockState nextPosBlockState = this.getState(this.mutablePos);
-                        int calculatedNextPosLevel = startLevel - this.getOpacity(nextPosBlockState, this.mutablePos);
+                        int nextPosBlockOpacity = this.getOpacity(nextPosBlockState, this.mutablePos);
+                        int calculatedNextPosLevel = startLevel - nextPosBlockOpacity;
 
                         try {
                             long prevPos = startPos + (startPos - nextPos);
                             int prevPosLevel = this.storage.getStoredLevel(prevPos);
-                            if (prevPosLevel == startLevel + 1) {
+                            if (prevPosLevel == startLevel + 1 && nextPosBlockOpacity < 15) {
                                 calculatedNextPosLevel = startLevel;
                             }
                         } catch (Exception ignored) {
