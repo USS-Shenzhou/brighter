@@ -11,7 +11,7 @@ public class BrighterF implements ModInitializer {
     @Override
     public void onInitialize() {
         if (FabricLoader.getInstance().isModLoaded("starlight")){
-            LogManager.getLogger().error("BrighterF is noy compatible with Starlight! BrighterF will not work.");
+            LogManager.getLogger().error("Brighter-Fabric is noy compatible with Starlight! BrighterF will not work.");
         }
     }
 }

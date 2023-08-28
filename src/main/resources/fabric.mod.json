@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "brighter",
-  "version": "0.1.192.1-beta",
-  "name": "BrighterF",
+  "version": "0.2.3-1201",
+  "name": "Brighter Fabric",
   "description": "Double your block light.\n\nSource code: https://github.com/USS-Shenzhou/brighter\n\nBrighterF is a rough copy of its forge version.",
   "authors": ["USS_Shenzhou"],
   "contact": {},
@@ -23,6 +23,7 @@
   "depends": {
     "fabricloader": ">=0.14.9",
     "fabric": "*",
-    "minecraft": "1.19.2"
-  }
+    "minecraft": ">=1.20"
+  },
+  "accessWidener": "brighter.accesswidener"
 }
